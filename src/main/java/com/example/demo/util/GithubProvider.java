@@ -42,7 +42,7 @@ public class GithubProvider {
 	
 	public GithubUser getUser(String access_token) {
 		OkHttpClient client = new OkHttpClient();
-		GithubUser user=null;
+		
 		Request request = new Request.Builder()
 												.url("https://api.github.com/user?access_token="+access_token)
 												.build();
@@ -50,11 +50,13 @@ public class GithubProvider {
 		try {
 			Response response = client.newCall(request).execute();
 			String str=response.body().string();
-			user=JSON.parseObject(str,GithubUser.class);
+			GithubUser user=JSON.parseObject(str,GithubUser.class);
+			return user;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		}
-		return user;
+		
 	}
 	
 	
